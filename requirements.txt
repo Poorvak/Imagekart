@@ -1,5 +1,6 @@
 boto3==1.4.3
 boto==2.45.0
+Pillow==2.5.1
 botocore==1.4.93
 virtualenv==15.1.0
 pySmartDL==1.2.5

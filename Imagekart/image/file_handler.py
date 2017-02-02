@@ -4,6 +4,8 @@ import os
 import urlparse
 import pySmartDL
 
+from pprint import pprint
+
 
 class Downloader(object):
     """Downloader class for handling all download operations."""
@@ -25,10 +27,12 @@ class Downloader(object):
         if user_agent:
             self.user_agents = pySmartDL.utils.get_random_useragent
 
-    def download(self, urls, dest=None, file_name=None):
+    def download(self, urls, dest=None, file_name=None, debug=None):
         """Download method for managing the downloads."""
         if not dest:
             dest = self.dest
+        if not debug:
+            debug = False
         if not isinstance(urls, list):
             urls = [urls]
         return_list = list()
@@ -38,8 +42,9 @@ class Downloader(object):
                 file_name = urlparser.path.split("/")[-1]
             return_path = os.path.join(dest, file_name)
             download_obj = pySmartDL.SmartDL(urls=urls, progress_bar=self.progress_bar,
-                                             dest=return_path)
-            download_obj.start(blocking=False)
+                                             dest=return_path, connect_default_logger=debug)
+            download_obj.start(blocking=True)
+
             if download_obj.isSuccessful():
                 return_list.append(return_path)
             else:
